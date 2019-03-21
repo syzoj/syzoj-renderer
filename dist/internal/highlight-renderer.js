@@ -34,20 +34,50 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var highlight = exports.highlight = function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(code, language) {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(code, language, cache) {
+    var cacheKey, cachedResult, result;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            cacheKey = void 0;
+
+            if (!cache) {
+              _context.next = 8;
+              break;
+            }
+
+            cacheKey = (0, _objectHash2.default)({
+              type: "Highlight",
+              task: {
+                code: code,
+                language: language
+              }
+            });
+
+            _context.next = 5;
+            return cache.get(cacheKey);
+
+          case 5:
+            cachedResult = _context.sent;
+
+            if (!cachedResult) {
+              _context.next = 8;
+              break;
+            }
+
+            return _context.abrupt('return', cachedResult);
+
+          case 8:
             if (!(language === 'plain')) {
-              _context.next = 2;
+              _context.next = 10;
               break;
             }
 
             return _context.abrupt('return', (0, _escapeHtml2.default)(code));
 
-          case 2:
-            _context.next = 4;
+          case 10:
+            _context.next = 12;
             return _pygmentsPromise2.default.pygmentize(code, {
               lexer: language,
               format: 'html',
@@ -57,10 +87,21 @@ var highlight = exports.highlight = function () {
               }
             });
 
-          case 4:
-            return _context.abrupt('return', _context.sent);
+          case 12:
+            result = _context.sent;
 
-          case 5:
+            if (!cache) {
+              _context.next = 16;
+              break;
+            }
+
+            _context.next = 16;
+            return cache.set(cacheKey, result);
+
+          case 16:
+            return _context.abrupt('return', result);
+
+          case 17:
           case 'end':
             return _context.stop();
         }
@@ -68,7 +109,7 @@ var highlight = exports.highlight = function () {
     }, _callee, this);
   }));
 
-  return function highlight(_x, _x2) {
+  return function highlight(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -80,6 +121,10 @@ var _pygmentsPromise2 = _interopRequireDefault(_pygmentsPromise);
 var _escapeHtml = require('escape-html');
 
 var _escapeHtml2 = _interopRequireDefault(_escapeHtml);
+
+var _objectHash = require('object-hash');
+
+var _objectHash2 = _interopRequireDefault(_objectHash);
 
 var _asyncRenderer = require('./async-renderer');
 
@@ -120,7 +165,7 @@ var HighlightRenderer = function (_AsyncRenderer) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return highlight(task.code, task.language);
+                return highlight(task.code, task.language, this.cache);
 
               case 2:
                 return _context2.abrupt('return', _context2.sent);
@@ -133,7 +178,7 @@ var HighlightRenderer = function (_AsyncRenderer) {
         }, _callee2, this);
       }));
 
-      function _doRender(_x3) {
+      function _doRender(_x4) {
         return _ref2.apply(this, arguments);
       }
 

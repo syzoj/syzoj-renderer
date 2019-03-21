@@ -60,14 +60,12 @@ console.log('<link href="./dist/math.css" rel="stylesheet">');
 import { markdown } from './src/index';
 import util from 'util';
 let cache;
-/*
 import Redis from 'redis';
 let redisClient = Redis.createClient();
 cache = {
   get: util.promisify(redisClient.get).bind(redisClient),
   set: util.promisify(redisClient.set).bind(redisClient),
 };
-*/
 // markdown(md, cache).then(html => {
 //   console.log(html)
 //   // process.exit();
