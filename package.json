@@ -11,6 +11,7 @@
   "author": "Menci <huanghaorui301@gmail.com>",
   "license": "AGPL-3.0",
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "escape-html": "^1.0.3",
     "markdown-it": "^8.4.2",
     "mathjax-node-page": "Menci/mathjax-node-page.git#1a9093ddd4925ab42e96fb9fdd566db37e5f3597",
