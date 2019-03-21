@@ -9,7 +9,7 @@ var _highlight = require('./highlight');
 Object.defineProperty(exports, 'highlight', {
   enumerable: true,
   get: function get() {
-    return _interopRequireDefault(_highlight).default;
+    return _highlight.highlight;
   }
 });
 
