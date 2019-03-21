@@ -39,6 +39,14 @@ var AsyncRenderer = function () {
       });
       return uuid;
     }
+
+    // Always cache render result by default.
+
+  }, {
+    key: '_shouldCache',
+    value: function _shouldCache(task) {
+      return true;
+    }
   }, {
     key: '_doRenderWrapper',
     value: function () {
@@ -48,7 +56,7 @@ var AsyncRenderer = function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (this.cache) {
+                if (!(!this.cache || !this._shouldCache(task))) {
                   _context.next = 4;
                   break;
                 }

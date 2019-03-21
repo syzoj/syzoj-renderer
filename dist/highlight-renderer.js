@@ -10,6 +10,10 @@ var _pygmentsPromise = require('pygments-promise');
 
 var _pygmentsPromise2 = _interopRequireDefault(_pygmentsPromise);
 
+var _escapeHtml = require('escape-html');
+
+var _escapeHtml2 = _interopRequireDefault(_escapeHtml);
+
 var _asyncRenderer = require('./async-renderer');
 
 var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
@@ -41,6 +45,14 @@ var HighlightRenderer = function (_AsyncRenderer) {
         language: language
       });
     }
+
+    // Don't cache if language is plain -- it only need to be escaped, not highlighted.
+
+  }, {
+    key: '_shouldCache',
+    value: function _shouldCache(task) {
+      return task.language !== 'plain';
+    }
   }, {
     key: '_doRender',
     value: function () {
@@ -49,6 +61,14 @@ var HighlightRenderer = function (_AsyncRenderer) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                if (!(task.language === 'plain')) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt('return', (0, _escapeHtml2.default)(task.code));
+
+              case 2:
                 return _context.abrupt('return', _pygmentsPromise2.default.pygmentize(task.code, {
                   lexer: task.language,
                   format: 'html',
@@ -58,7 +78,7 @@ var HighlightRenderer = function (_AsyncRenderer) {
                   }
                 }));
 
-              case 1:
+              case 3:
               case 'end':
                 return _context.stop();
             }

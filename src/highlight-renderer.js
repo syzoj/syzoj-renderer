@@ -1,4 +1,5 @@
 import Pygments from 'pygments-promise';
+import EscapeHTML from 'escape-html';
 
 import AsyncRenderer from './async-renderer';
 
@@ -14,7 +15,16 @@ export default class HighlightRenderer extends AsyncRenderer {
     });
   }
 
+  // Don't cache if language is plain -- it only need to be escaped, not highlighted.
+  _shouldCache(task) {
+    return task.language !== 'plain';
+  }
+
   async _doRender(task) {
+    if (task.language === 'plain') {
+      return EscapeHTML(task.code);
+    }
+
     return Pygments.pygmentize(task.code, {
       lexer: task.language,
       format: 'html',
