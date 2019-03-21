@@ -77,7 +77,9 @@ var highlight = exports.highlight = function () {
             return _context.abrupt('return', (0, _escapeHtml2.default)(code));
 
           case 10:
-            _context.next = 12;
+            result = void 0;
+            _context.prev = 11;
+            _context.next = 14;
             return _pygmentsPromise2.default.pygmentize(code, {
               lexer: language,
               format: 'html',
@@ -87,26 +89,35 @@ var highlight = exports.highlight = function () {
               }
             });
 
-          case 12:
+          case 14:
             result = _context.sent;
+            _context.next = 20;
+            break;
 
+          case 17:
+            _context.prev = 17;
+            _context.t0 = _context['catch'](11);
+
+            result = (0, _escapeHtml2.default)(code);
+
+          case 20:
             if (!cache) {
-              _context.next = 16;
+              _context.next = 23;
               break;
             }
 
-            _context.next = 16;
+            _context.next = 23;
             return cache.set(cacheKey, result);
 
-          case 16:
+          case 23:
             return _context.abrupt('return', result);
 
-          case 17:
+          case 24:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this);
+    }, _callee, this, [[11, 17]]);
   }));
 
   return function highlight(_x, _x2, _x3) {

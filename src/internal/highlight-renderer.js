@@ -23,14 +23,19 @@ export async function highlight(code, language, cache) {
     return EscapeHTML(code);
   }
 
-  const result = await Pygments.pygmentize(code, {
-    lexer: language,
-    format: 'html',
-    options: {
-      nowrap: true,
-      classprefix: 'pl-'
-    }
-  });
+  let result;
+  try {
+    result = await Pygments.pygmentize(code, {
+      lexer: language,
+      format: 'html',
+      options: {
+        nowrap: true,
+        classprefix: 'pl-'
+      }
+    });
+  } catch (e) {
+    result = EscapeHTML(code);
+  }
 
   if (cache) {
     await cache.set(cacheKey, result);
