@@ -8,6 +8,10 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -24,6 +28,10 @@ var _objectHash = require('object-hash');
 
 var _objectHash2 = _interopRequireDefault(_objectHash);
 
+var _objectAssignDeep = require('object-assign-deep');
+
+var _objectAssignDeep2 = _interopRequireDefault(_objectAssignDeep);
+
 var _mathRenderer = require('./internal/math-renderer');
 
 var _mathRenderer2 = _interopRequireDefault(_mathRenderer);
@@ -35,7 +43,7 @@ var _highlightRenderer2 = _interopRequireDefault(_highlightRenderer);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(input, cache, callbackFilter) {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(input, cache, callbackFilter, options) {
     var cacheKey, cachedResult, uuidReplaces, mathRenderer, highlightRenderer, renderer, htmlResult, replacedHtmlResult, uuid;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
@@ -51,7 +59,8 @@ exports.default = function () {
 
             cacheKey = (0, _objectHash2.default)({
               type: "Markdown",
-              task: input
+              task: input,
+              options: options
             });
 
             _context.next = 5;
@@ -69,6 +78,9 @@ exports.default = function () {
 
           case 8:
 
+            // Ignore it when options is not a object.
+            if ((typeof options === 'undefined' ? 'undefined' : (0, _typeof3.default)(options)) !== 'object') options = {};
+
             // Maths and highlights are rendered asynchronously, so a UUID placeholder is
             // returned to markdown-it during markdown rendering process. After markdown
             // and these finish rendering, replace the placeholder with rendered content
@@ -79,8 +91,8 @@ exports.default = function () {
             });
             highlightRenderer = new _highlightRenderer2.default(cache, function (uuid, result) {
               uuidReplaces[uuid] = result;
-            });
-            renderer = new _markdownIt2.default({
+            }, options.pygments);
+            renderer = new _markdownIt2.default((0, _objectAssignDeep2.default)({
               html: true,
               breaks: false,
               linkify: true,
@@ -88,10 +100,10 @@ exports.default = function () {
               highlight: function highlight(code, language) {
                 return highlightRenderer.addRenderTask(code, language);
               }
-            });
+            }, options.markdownIt));
 
 
-            renderer.use(_markdownItMathLoose2.default, {
+            renderer.use(_markdownItMathLoose2.default, (0, _objectAssignDeep2.default)({
               inlineOpen: '$',
               inlineClose: '$',
               blockOpen: '$$',
@@ -102,7 +114,7 @@ exports.default = function () {
               blockRenderer: function blockRenderer(str) {
                 return mathRenderer.addRenderTask(str, true);
               }
-            });
+            }, options.markdownItMath));
 
             htmlResult = renderer.render(input);
 
@@ -112,18 +124,18 @@ exports.default = function () {
             }
 
             // Do math and highlight rendering.
-            _context.next = 17;
+            _context.next = 18;
             return mathRenderer.doRender(function (uuid) {
               return htmlResult.indexOf(uuid) === -1;
             });
 
-          case 17:
-            _context.next = 19;
+          case 18:
+            _context.next = 20;
             return highlightRenderer.doRender(function (uuid) {
               return htmlResult.indexOf(uuid) === -1;
             });
 
-          case 19:
+          case 20:
 
             // Replace placeholders back.
             replacedHtmlResult = htmlResult;
@@ -135,17 +147,17 @@ exports.default = function () {
             // Set cache.
 
             if (!cache) {
-              _context.next = 24;
+              _context.next = 25;
               break;
             }
 
-            _context.next = 24;
+            _context.next = 25;
             return cache.set(cacheKey, replacedHtmlResult);
 
-          case 24:
+          case 25:
             return _context.abrupt('return', replacedHtmlResult);
 
-          case 25:
+          case 26:
           case 'end':
             return _context.stop();
         }
@@ -153,7 +165,7 @@ exports.default = function () {
     }, _callee, this);
   }));
 
-  function render(_x, _x2, _x3) {
+  function render(_x, _x2, _x3, _x4) {
     return _ref.apply(this, arguments);
   }
 

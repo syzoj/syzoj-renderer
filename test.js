@@ -52,6 +52,14 @@ $ \\qwq wq \\phi $
 $2\\begin$
 
 $qwq$
+
+1
+2
+3
+4
+5
+6
+7
 `;
 
 // console.log('<link href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css" rel="stylesheet">');
@@ -71,7 +79,19 @@ cache = {
 //   // process.exit();
 // });
 
-markdown(md2, cache).then(html => {
+markdown(md2, null, null, {
+  markdownIt: {
+    breaks: true
+  },
+  markdownItMath: {
+    inlineClose: 'qwqwqwqwq'
+  },
+  pygments: {
+    options: {
+      classprefix: 'menci-'
+    }
+  }
+}).then(html => {
   console.log(html)
   // process.exit();
 });

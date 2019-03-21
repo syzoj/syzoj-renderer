@@ -1,22 +1,27 @@
 import MarkdownIt from 'markdown-it';
 import MathdownItMath from 'markdown-it-math-loose';
 import ObjectHash from 'object-hash';
+import ObjectAssignDeep from 'object-assign-deep';
 
 import MathRenderer from './internal/math-renderer';
 import HighlightRenderer from './internal/highlight-renderer';
 
-export default async function render(input, cache, callbackFilter) {
+export default async function render(input, cache, callbackFilter, options) {
   // Check cache first.
   let cacheKey;
   if (cache) {
     cacheKey = ObjectHash({
       type: "Markdown",
-      task: input
+      task: input,
+      options: options
     });
 
     let cachedResult = await cache.get(cacheKey);
     if (cachedResult) return cachedResult;
   }
+
+  // Ignore it when options is not a object.
+  if (typeof options !== 'object') options = {};
 
   // Maths and highlights are rendered asynchronously, so a UUID placeholder is
   // returned to markdown-it during markdown rendering process. After markdown
@@ -30,24 +35,24 @@ export default async function render(input, cache, callbackFilter) {
 
   let highlightRenderer = new HighlightRenderer(cache, (uuid, result) => {
     uuidReplaces[uuid] = result;
-  });
+  }, options.pygments);
 
-  const renderer = new MarkdownIt({
+  const renderer = new MarkdownIt(ObjectAssignDeep({
     html: true,
     breaks: false,
     linkify: true,
     typographer: false,
     highlight: (code, language) => highlightRenderer.addRenderTask(code, language)
-  });
+  }, options.markdownIt));
 
-  renderer.use(MathdownItMath, {
+  renderer.use(MathdownItMath, ObjectAssignDeep({
     inlineOpen: '$',
     inlineClose: '$',
     blockOpen: '$$',
     blockClose: '$$',
     inlineRenderer: str => mathRenderer.addRenderTask(str, false),
     blockRenderer: str => mathRenderer.addRenderTask(str, true)
-  });
+  }, options.markdownItMath));
   
   let htmlResult = renderer.render(input);
   if (callbackFilter) {

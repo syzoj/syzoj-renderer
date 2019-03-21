@@ -1,17 +1,19 @@
 import Pygments from 'pygments-promise';
 import EscapeHTML from 'escape-html';
 import ObjectHash from 'object-hash';
+import ObjectAssignDeep from 'object-assign-deep';
 
 import AsyncRenderer from './async-renderer';
 
-export async function highlight(code, language, cache) {
+export async function highlight(code, language, cache, options) {
   let cacheKey;
   if (cache) {
     cacheKey = ObjectHash({
       type: "Highlight",
       task: {
         code,
-        language
+        language,
+        options
       }
     });
 
@@ -25,14 +27,22 @@ export async function highlight(code, language, cache) {
 
   let result;
   try {
-    result = await Pygments.pygmentize(code, {
+    console.log(ObjectAssignDeep({
       lexer: language,
       format: 'html',
       options: {
         nowrap: true,
         classprefix: 'pl-'
       }
-    });
+    }, options));
+    result = await Pygments.pygmentize(code, ObjectAssignDeep({
+      lexer: language,
+      format: 'html',
+      options: {
+        nowrap: true,
+        classprefix: 'pl-'
+      }
+    }, options));
   } catch (e) {
     result = EscapeHTML(code);
   }
@@ -45,14 +55,16 @@ export async function highlight(code, language, cache) {
 }
 
 export default class HighlightRenderer extends AsyncRenderer {
-  constructor(cache, callbackAddReplace) {
+  constructor(cache, callbackAddReplace, options) {
     super(cache, callbackAddReplace);
+    this.options = options;
   }
 
   addRenderTask(code, language) {
     return this._addRenderTask({
       code: code,
-      language: language
+      language: language,
+      options: this.options
     });
   }
 
@@ -62,6 +74,6 @@ export default class HighlightRenderer extends AsyncRenderer {
   }
 
   async _doRender(task) {
-    return await highlight(task.code, task.language, this.cache);
+    return await highlight(task.code, task.language, this.cache, this.options);
   }
 }

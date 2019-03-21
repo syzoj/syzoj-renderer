@@ -34,7 +34,7 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var highlight = exports.highlight = function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(code, language, cache) {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(code, language, cache, options) {
     var cacheKey, cachedResult, result;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
@@ -51,7 +51,8 @@ var highlight = exports.highlight = function () {
               type: "Highlight",
               task: {
                 code: code,
-                language: language
+                language: language,
+                options: options
               }
             });
 
@@ -79,48 +80,57 @@ var highlight = exports.highlight = function () {
           case 10:
             result = void 0;
             _context.prev = 11;
-            _context.next = 14;
-            return _pygmentsPromise2.default.pygmentize(code, {
+
+            console.log((0, _objectAssignDeep2.default)({
               lexer: language,
               format: 'html',
               options: {
                 nowrap: true,
                 classprefix: 'pl-'
               }
-            });
+            }, options));
+            _context.next = 15;
+            return _pygmentsPromise2.default.pygmentize(code, (0, _objectAssignDeep2.default)({
+              lexer: language,
+              format: 'html',
+              options: {
+                nowrap: true,
+                classprefix: 'pl-'
+              }
+            }, options));
 
-          case 14:
+          case 15:
             result = _context.sent;
-            _context.next = 20;
+            _context.next = 21;
             break;
 
-          case 17:
-            _context.prev = 17;
+          case 18:
+            _context.prev = 18;
             _context.t0 = _context['catch'](11);
 
             result = (0, _escapeHtml2.default)(code);
 
-          case 20:
+          case 21:
             if (!cache) {
-              _context.next = 23;
+              _context.next = 24;
               break;
             }
 
-            _context.next = 23;
+            _context.next = 24;
             return cache.set(cacheKey, result);
 
-          case 23:
+          case 24:
             return _context.abrupt('return', result);
 
-          case 24:
+          case 25:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[11, 17]]);
+    }, _callee, this, [[11, 18]]);
   }));
 
-  return function highlight(_x, _x2, _x3) {
+  return function highlight(_x, _x2, _x3, _x4) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -137,6 +147,10 @@ var _objectHash = require('object-hash');
 
 var _objectHash2 = _interopRequireDefault(_objectHash);
 
+var _objectAssignDeep = require('object-assign-deep');
+
+var _objectAssignDeep2 = _interopRequireDefault(_objectAssignDeep);
+
 var _asyncRenderer = require('./async-renderer');
 
 var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
@@ -146,9 +160,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var HighlightRenderer = function (_AsyncRenderer) {
   (0, _inherits3.default)(HighlightRenderer, _AsyncRenderer);
 
-  function HighlightRenderer(cache, callbackAddReplace) {
+  function HighlightRenderer(cache, callbackAddReplace, options) {
     (0, _classCallCheck3.default)(this, HighlightRenderer);
-    return (0, _possibleConstructorReturn3.default)(this, (HighlightRenderer.__proto__ || (0, _getPrototypeOf2.default)(HighlightRenderer)).call(this, cache, callbackAddReplace));
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (HighlightRenderer.__proto__ || (0, _getPrototypeOf2.default)(HighlightRenderer)).call(this, cache, callbackAddReplace));
+
+    _this.options = options;
+    return _this;
   }
 
   (0, _createClass3.default)(HighlightRenderer, [{
@@ -156,7 +174,8 @@ var HighlightRenderer = function (_AsyncRenderer) {
     value: function addRenderTask(code, language) {
       return this._addRenderTask({
         code: code,
-        language: language
+        language: language,
+        options: this.options
       });
     }
 
@@ -176,7 +195,7 @@ var HighlightRenderer = function (_AsyncRenderer) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return highlight(task.code, task.language, this.cache);
+                return highlight(task.code, task.language, this.cache, this.options);
 
               case 2:
                 return _context2.abrupt('return', _context2.sent);
@@ -189,7 +208,7 @@ var HighlightRenderer = function (_AsyncRenderer) {
         }, _callee2, this);
       }));
 
-      function _doRender(_x4) {
+      function _doRender(_x5) {
         return _ref2.apply(this, arguments);
       }
 
