@@ -1,7 +1,8 @@
 import util from 'util';
-import AsyncRenderer from './async-renderer';
 import MathJaxNodePage from 'mathjax-node-page';
 import EscapeHTML from 'escape-html';
+
+import AsyncRenderer from './async-renderer';
 
 function formatErrorMessage(message) {
   let htmlContext = EscapeHTML(message.trim('\n')).split('\n').join('<br>');

@@ -10,10 +10,6 @@ var _util = require('util');
 
 var _util2 = _interopRequireDefault(_util);
 
-var _asyncRenderer = require('./async-renderer');
-
-var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
-
 var _mathjaxNodePage = require('mathjax-node-page');
 
 var _mathjaxNodePage2 = _interopRequireDefault(_mathjaxNodePage);
@@ -21,6 +17,10 @@ var _mathjaxNodePage2 = _interopRequireDefault(_mathjaxNodePage);
 var _escapeHtml = require('escape-html');
 
 var _escapeHtml2 = _interopRequireDefault(_escapeHtml);
+
+var _asyncRenderer = require('./async-renderer');
+
+var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

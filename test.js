@@ -55,9 +55,9 @@ $qwq$
 `;
 
 // console.log('<link href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css" rel="stylesheet">');
-console.log('<link href="./dist/math-renderer.css" rel="stylesheet">');
+console.log('<link href="./dist/math.css" rel="stylesheet">');
 
-import renderMarkdown from './src/index';
+import { markdown } from './src/index';
 import util from 'util';
 let cache;
 /*
@@ -68,12 +68,12 @@ cache = {
   set: util.promisify(redisClient.set).bind(redisClient),
 };
 */
-// renderMarkdown(md, cache).then(html => {
+// markdown(md, cache).then(html => {
 //   console.log(html)
 //   // process.exit();
 // });
 
-renderMarkdown(md2, cache).then(html => {
+markdown(md2, cache).then(html => {
   console.log(html)
   // process.exit();
 });
