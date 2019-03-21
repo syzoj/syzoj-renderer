@@ -8,9 +8,9 @@ var _markdownIt = require('markdown-it');
 
 var _markdownIt2 = _interopRequireDefault(_markdownIt);
 
-var _markdownItMath = require('markdown-it-math');
+var _markdownItMathLoose = require('markdown-it-math-loose');
 
-var _markdownItMath2 = _interopRequireDefault(_markdownItMath);
+var _markdownItMathLoose2 = _interopRequireDefault(_markdownItMathLoose);
 
 var _objectHash = require('object-hash');
 
@@ -85,7 +85,7 @@ exports.default = function () {
             });
 
 
-            renderer.use(_markdownItMath2.default, {
+            renderer.use(_markdownItMathLoose2.default, {
               inlineOpen: '$',
               inlineClose: '$',
               blockOpen: '$$',

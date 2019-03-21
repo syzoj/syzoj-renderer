@@ -6,17 +6,21 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _katex = require('katex');
+var _util = require('util');
 
-var _katex2 = _interopRequireDefault(_katex);
-
-var _mathjaxNode = require('mathjax-node');
-
-var _mathjaxNode2 = _interopRequireDefault(_mathjaxNode);
+var _util2 = _interopRequireDefault(_util);
 
 var _asyncRenderer = require('./async-renderer');
 
 var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
+
+var _mathjaxNodePage = require('mathjax-node-page');
+
+var _mathjaxNodePage2 = _interopRequireDefault(_mathjaxNodePage);
+
+var _escapeHtml = require('escape-html');
+
+var _escapeHtml2 = _interopRequireDefault(_escapeHtml);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,9 +32,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-_mathjaxNode2.default.config({
-  displayErrors: false // Don't log errors on console.
-});
+function formatErrorMessage(message) {
+  var htmlContext = (0, _escapeHtml2.default)(message.trim('\n')).split('\n').join('<br>');
+  return '<span class="math-rendering-error-message">' + htmlContext + '</span>';
+}
+
+// This class is previously intented to call KaTeX and MathJax in _doRender
+// to render asynchronously, but then I moved to render all maths within
+// a single call to MathJax, so now this class overrides doRender and handle
+// all tasks in a single function. And cache is NOT used.
 
 var MathRenderer = function (_AsyncRenderer) {
   _inherits(MathRenderer, _AsyncRenderer);
@@ -38,7 +48,8 @@ var MathRenderer = function (_AsyncRenderer) {
   function MathRenderer(cache, callbackAddReplace) {
     _classCallCheck(this, MathRenderer);
 
-    return _possibleConstructorReturn(this, (MathRenderer.__proto__ || Object.getPrototypeOf(MathRenderer)).call(this, cache, callbackAddReplace));
+    // Don't cache it since a page must be rendered in the same time.
+    return _possibleConstructorReturn(this, (MathRenderer.__proto__ || Object.getPrototypeOf(MathRenderer)).call(this, null, callbackAddReplace));
   }
 
   _createClass(MathRenderer, [{
@@ -50,69 +61,154 @@ var MathRenderer = function (_AsyncRenderer) {
       });
     }
   }, {
-    key: '_doRender',
+    key: 'doRender',
     value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(task) {
-        var result, typesetResult;
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(callbackCheckFiltered) {
+        var jsdom, document, tasks, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, task, uuid, math, scriptTag, divTag, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _task, result, errorMessage;
+
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                // Try KaTeX first, use MathJax if fails.
-                result = void 0;
-                _context.prev = 1;
-
-                result = _katex2.default.renderToString(task.texCode, {
-                  displayMode: task.displayMode
+                jsdom = new _mathjaxNodePage2.default.JSDOM(), document = jsdom.window.document;
+                tasks = this.tasks.filter(function (task) {
+                  return !callbackCheckFiltered(task.uuid);
                 });
-                _context.next = 17;
-                break;
-
-              case 5:
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _iteratorError = undefined;
                 _context.prev = 5;
-                _context.t0 = _context['catch'](1);
-                _context.prev = 7;
-                _context.next = 10;
-                return _mathjaxNode2.default.typeset({
-                  math: task.texCode,
-                  format: task.displayMode ? "TeX" : "inline-TeX",
-                  svg: true
-                });
 
-              case 10:
-                typesetResult = _context.sent;
+                for (_iterator = tasks[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                  task = _step.value;
+                  uuid = task.uuid, math = task.task;
+                  scriptTag = document.createElement('script');
 
-                result = typesetResult.svg;
-                _context.next = 17;
-                break;
+                  scriptTag.type = 'math/tex';
+                  if (math.displayMode) scriptTag.type += '; mode=display';
+                  scriptTag.text = math.texCode;
 
-              case 14:
-                _context.prev = 14;
-                _context.t1 = _context['catch'](7);
+                  divTag = document.createElement('div');
 
-                result = '<span style="display: inline-block; border: 1px solid #000; ">' + ('<strong>' + _context.t1.toString() + '</strong>') + '</span>';
+                  divTag.id = uuid;
+                  divTag.appendChild(scriptTag);
 
-              case 17:
-
-                if (task.displayMode) {
-                  result = '<p style="text-align: center; ">' + result + '</p>';
+                  document.body.appendChild(divTag);
                 }
 
-                return _context.abrupt('return', result);
+                _context.next = 13;
+                break;
+
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context['catch'](5);
+                _didIteratorError = true;
+                _iteratorError = _context.t0;
+
+              case 13:
+                _context.prev = 13;
+                _context.prev = 14;
+
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                  _iterator.return();
+                }
+
+              case 16:
+                _context.prev = 16;
+
+                if (!_didIteratorError) {
+                  _context.next = 19;
+                  break;
+                }
+
+                throw _iteratorError;
 
               case 19:
+                return _context.finish(16);
+
+              case 20:
+                return _context.finish(13);
+
+              case 21:
+                _context.next = 23;
+                return new Promise(function (resolve, reject) {
+                  _mathjaxNodePage2.default.mjpage(jsdom, {
+                    output: 'svg',
+                    cssInline: false,
+                    errorHandler: function errorHandler(id, wrapperNode, sourceFormula, sourceFormat, errors) {
+                      wrapperNode.innerHTML = formatErrorMessage(errors.join('\n'));
+                    }
+                  }, {}, resolve);
+                });
+
+              case 23:
+                _iteratorNormalCompletion2 = true;
+                _didIteratorError2 = false;
+                _iteratorError2 = undefined;
+                _context.prev = 26;
+
+
+                for (_iterator2 = tasks[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                  _task = _step2.value;
+                  result = null;
+
+                  try {
+                    result = document.getElementById(_task.uuid).innerHTML;
+                  } catch (e) {
+                    errorMessage = 'Failed to render ' + (_task.task.displayMode ? 'display' : 'inline') + ' math: ' + _util2.default.inspect(_task.task.texCode) + '\n' + e.toString();
+
+                    result = formatErrorMessage(errorMessage);
+                  }
+
+                  if (_task.task.displayMode) result = '<p style="text-align: center; ">' + result + '</p>';
+                  this.callbackAddReplace(_task.uuid, result);
+                }
+                _context.next = 34;
+                break;
+
+              case 30:
+                _context.prev = 30;
+                _context.t1 = _context['catch'](26);
+                _didIteratorError2 = true;
+                _iteratorError2 = _context.t1;
+
+              case 34:
+                _context.prev = 34;
+                _context.prev = 35;
+
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                  _iterator2.return();
+                }
+
+              case 37:
+                _context.prev = 37;
+
+                if (!_didIteratorError2) {
+                  _context.next = 40;
+                  break;
+                }
+
+                throw _iteratorError2;
+
+              case 40:
+                return _context.finish(37);
+
+              case 41:
+                return _context.finish(34);
+
+              case 42:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[1, 5], [7, 14]]);
+        }, _callee, this, [[5, 9, 13, 21], [14,, 16, 20], [26, 30, 34, 42], [35,, 37, 41]]);
       }));
 
-      function _doRender(_x) {
+      function doRender(_x) {
         return _ref.apply(this, arguments);
       }
 
-      return _doRender;
+      return doRender;
     }()
   }]);
 

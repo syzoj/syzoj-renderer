@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it';
-import MathdownItMath from 'markdown-it-math';
+import MathdownItMath from 'markdown-it-math-loose';
 import ObjectHash from 'object-hash';
 
 import MathRenderer from './math-renderer';
@@ -40,7 +40,6 @@ export default async function render(input, cache, callbackFilter) {
     highlight: (code, language) => highlightRenderer.addRenderTask(code, language)
   });
 
-  
   renderer.use(MathdownItMath, {
     inlineOpen: '$',
     inlineClose: '$',

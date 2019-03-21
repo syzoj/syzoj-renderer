@@ -6,7 +6,7 @@ $$
 \\begin{align*}
 x&=1\\\\
 yyyy&=2
-\\end{align***}
+\\end{align*}
 $$
 
 <script>alert('xss')</script>
@@ -18,20 +18,64 @@ int main() {
   return 0;
 }
 \`\`\`
+
+$ \\newcommand\\qwq{\\mathop{\\text{qwq}}} $
+
+$ \\qwq wq \\phi $
 `;
 
-console.log('<link href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css" rel="stylesheet">');
+let md2 = `
+# Header
+$$a+b$$
 
-import renderMarkdown from '.';
+$$
+\\begin{align*}
+x&=1\\\\
+yyyy&=2
+\\end{align*}
+$$
+
+<script>alert('xss')</script>
+
+\`\`\`cpp
+#include <cstdio>
+
+int main() {
+  return 0;
+}
+\`\`\`
+
+\\$\\$ \\newcommand\\qwq{\\mathop{\\text{qwq}}} \\$\\$
+
+$ \\qwq wq \\phi $
+
+$2\\begin$
+
+$qwq$
+`;
+
+// console.log('<link href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css" rel="stylesheet">');
+console.log('<link href="./dist/math-renderer.css" rel="stylesheet">');
+
+import renderMarkdown from './src/index';
 import util from 'util';
+let cache;
+/*
 import Redis from 'redis';
 let redisClient = Redis.createClient();
-renderMarkdown(md, {
+cache = {
   get: util.promisify(redisClient.get).bind(redisClient),
   set: util.promisify(redisClient.set).bind(redisClient),
-}).then(html => {
+};
+*/
+// renderMarkdown(md, cache).then(html => {
+//   console.log(html)
+//   // process.exit();
+// });
+
+renderMarkdown(md2, cache).then(html => {
   console.log(html)
-  process.exit();
+  // process.exit();
 });
 
 // let old = require('../syzoj/libs/markdown');
