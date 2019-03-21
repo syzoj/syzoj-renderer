@@ -4,7 +4,41 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _util = require('util');
 
@@ -24,14 +58,6 @@ var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 function formatErrorMessage(message) {
   var htmlContext = (0, _escapeHtml2.default)(message.trim('\n')).split('\n').join('<br>');
   return '<span class="math-rendering-error-message">' + htmlContext + '</span>';
@@ -43,16 +69,16 @@ function formatErrorMessage(message) {
 // all tasks in a single function. And cache is NOT used.
 
 var MathRenderer = function (_AsyncRenderer) {
-  _inherits(MathRenderer, _AsyncRenderer);
+  (0, _inherits3.default)(MathRenderer, _AsyncRenderer);
 
   function MathRenderer(cache, callbackAddReplace) {
-    _classCallCheck(this, MathRenderer);
+    (0, _classCallCheck3.default)(this, MathRenderer);
 
     // Don't cache it since a page must be rendered in the same time.
-    return _possibleConstructorReturn(this, (MathRenderer.__proto__ || Object.getPrototypeOf(MathRenderer)).call(this, null, callbackAddReplace));
+    return (0, _possibleConstructorReturn3.default)(this, (MathRenderer.__proto__ || (0, _getPrototypeOf2.default)(MathRenderer)).call(this, null, callbackAddReplace));
   }
 
-  _createClass(MathRenderer, [{
+  (0, _createClass3.default)(MathRenderer, [{
     key: 'addRenderTask',
     value: function addRenderTask(texCode, displayMode) {
       return this._addRenderTask({
@@ -63,10 +89,10 @@ var MathRenderer = function (_AsyncRenderer) {
   }, {
     key: 'doRender',
     value: function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(callbackCheckFiltered) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(callbackCheckFiltered) {
         var jsdom, document, tasks, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, task, uuid, math, scriptTag, divTag, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _task, result, errorMessage;
 
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -79,7 +105,7 @@ var MathRenderer = function (_AsyncRenderer) {
                 _iteratorError = undefined;
                 _context.prev = 5;
 
-                for (_iterator = tasks[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                for (_iterator = (0, _getIterator3.default)(tasks); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   task = _step.value;
                   uuid = task.uuid, math = task.task;
                   scriptTag = document.createElement('script');
@@ -131,7 +157,7 @@ var MathRenderer = function (_AsyncRenderer) {
 
               case 21:
                 _context.next = 23;
-                return new Promise(function (resolve, reject) {
+                return new _promise2.default(function (resolve, reject) {
                   _mathjaxNodePage2.default.mjpage(jsdom, {
                     output: 'svg',
                     cssInline: false,
@@ -148,7 +174,7 @@ var MathRenderer = function (_AsyncRenderer) {
                 _context.prev = 26;
 
 
-                for (_iterator2 = tasks[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                for (_iterator2 = (0, _getIterator3.default)(tasks); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                   _task = _step2.value;
                   result = null;
 
@@ -211,7 +237,6 @@ var MathRenderer = function (_AsyncRenderer) {
       return doRender;
     }()
   }]);
-
   return MathRenderer;
 }(_asyncRenderer2.default);
 
