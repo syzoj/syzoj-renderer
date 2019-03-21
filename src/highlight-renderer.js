@@ -1,7 +1,6 @@
-import Pygments from 'pygments-promise';
-import EscapeHTML from 'escape-html';
 
 import AsyncRenderer from './async-renderer';
+import highlight from './highlight';
 
 export default class HighlightRenderer extends AsyncRenderer {
   constructor(cache, callbackAddReplace) {
@@ -21,17 +20,6 @@ export default class HighlightRenderer extends AsyncRenderer {
   }
 
   async _doRender(task) {
-    if (task.language === 'plain') {
-      return EscapeHTML(task.code);
-    }
-
-    return Pygments.pygmentize(task.code, {
-      lexer: task.language,
-      format: 'html',
-      options: {
-        nowrap: true,
-        classprefix: 'pl-'
-      }
-    });
+    return await highlight(task.code, task.language);
   }
 }

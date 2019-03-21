@@ -6,17 +6,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _pygmentsPromise = require('pygments-promise');
-
-var _pygmentsPromise2 = _interopRequireDefault(_pygmentsPromise);
-
-var _escapeHtml = require('escape-html');
-
-var _escapeHtml2 = _interopRequireDefault(_escapeHtml);
-
 var _asyncRenderer = require('./async-renderer');
 
 var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
+
+var _highlight = require('./highlight');
+
+var _highlight2 = _interopRequireDefault(_highlight);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -61,22 +57,11 @@ var HighlightRenderer = function (_AsyncRenderer) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(task.language === 'plain')) {
-                  _context.next = 2;
-                  break;
-                }
-
-                return _context.abrupt('return', (0, _escapeHtml2.default)(task.code));
+                _context.next = 2;
+                return (0, _highlight2.default)(task.code, task.language);
 
               case 2:
-                return _context.abrupt('return', _pygmentsPromise2.default.pygmentize(task.code, {
-                  lexer: task.language,
-                  format: 'html',
-                  options: {
-                    nowrap: true,
-                    classprefix: 'pl-'
-                  }
-                }));
+                return _context.abrupt('return', _context.sent);
 
               case 3:
               case 'end':
