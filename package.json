@@ -1,13 +1,13 @@
 {
-  "name": "syzoj-markdown",
+  "name": "syzoj-renderer",
   "version": "1.0.0",
-  "description": "SYZOJ's markdown renderer",
+  "description": "SYZOJ's renderer for markdown, math and highlight",
   "scripts": {
     "build": "rm -rf ./dist; babel -d ./dist ./src; cp ./src/*.css ./dist/",
 	"prepublish": "yarn run build"
   },
   "main": "dist/index.js",
-  "repository": "https://github.com/syzoj/syzoj-markdown",
+  "repository": "https://github.com/syzoj/syzoj-renderer",
   "author": "Menci <huanghaorui301@gmail.com>",
   "license": "AGPL-3.0",
   "dependencies": {
