@@ -41,7 +41,7 @@ Return highlighted code in HTML. Won't throw.
 * Markdown backend is [markdown-it](https://github.com/markdown-it/markdown-it).
     * GFM is supported.
     * By default, `linkify` and `html` are enabled, `typographer` and `breaks` are disabled.
-* Code highlight backend is [pygments](https://pygments.org), which requires pygments to be installed.
+* Code highlight backend is [pygments](http://pygments.org), which requires pygments to be installed.
     * If no `pygmentize` is available, it'll always return unhighlighted code.
     * `pygmentize`'s default commandline arguments are: `pygmentize -l <language> -f html -P nowrap=true -P classprefix=pl-`.
     * A theme CSS is required to display highlighted code properly.
