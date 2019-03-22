@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import MathdownItMath from 'markdown-it-math-loose';
+import MarkdownItMergeCells from 'markdown-it-merge-cells';
 import ObjectHash from 'object-hash';
 import ObjectAssignDeep from 'object-assign-deep';
 
@@ -20,8 +21,10 @@ export default async function render(input, cache, callbackFilter, options) {
     if (cachedResult) return cachedResult;
   }
 
-  // Ignore it when options is not a object.
-  if (typeof options !== 'object') options = {};
+  // Merge options with default values and normalize non-object input for options.
+  options = Object.assign({
+    markdownItMergeCells: true
+  }, options);
 
   // Maths and highlights are rendered asynchronously, so a UUID placeholder is
   // returned to markdown-it during markdown rendering process. After markdown
@@ -53,6 +56,11 @@ export default async function render(input, cache, callbackFilter, options) {
     inlineRenderer: str => mathRenderer.addRenderTask(str, false),
     blockRenderer: str => mathRenderer.addRenderTask(str, true)
   }, options.markdownItMath));
+
+  // Inject merge table cell support.
+  if (options.markdownItMergeCells) {
+    renderer.use(MarkdownItMergeCells);
+  }
   
   let htmlResult = renderer.render(input);
   if (callbackFilter) {

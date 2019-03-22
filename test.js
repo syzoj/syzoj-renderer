@@ -1,91 +1,31 @@
 let md = `
-# Header
-$$a+b$$
+|1|1|3|4|5|
+|-|-|-|-|-|
+|1|1|2|2|6|
+|1|1|2|2|7|
+|1|4|3|5|5|`;
 
-$$
-\\begin{align*}
-x&=1\\\\
-yyyy&=2
-\\end{align*}
-$$
-
-<script>alert('xss')</script>
-
-\`\`\`cpp
-#include <cstdio>
-
-int main() {
-  return 0;
-}
-\`\`\`
-
-$ \\newcommand\\qwq{\\mathop{\\text{qwq}}} $
-
-$ \\qwq wq \\phi $
-`;
-
-let md2 = `
-# Header
-$$a+b$$
-
-$$
-\\begin{align*}
-x&=1\\\\
-yyyy&=2
-\\end{align*}
-$$
-
-<script>alert('xss')</script>
-
-\`\`\`cpp
-#include <cstdio>
-
-int main() {
-  return 0;
-}
-\`\`\`
-
-\\$\\$ \\newcommand\\qwq{\\mathop{\\text{qwq}}} \\$\\$
-
-$ \\qwq wq \\phi $
-
-$2\\begin$
-
-$qwq$
-
-1
-2
-3
-4
-5
-6
-7
-`;
-
-// console.log('<link href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css" rel="stylesheet">');
 console.log('<link href="./dist/math.css" rel="stylesheet">');
+console.log('<style>td { border: 1px solid #000; }</style>');
 
 import { markdown } from './src/index';
 import util from 'util';
 let cache;
-import Redis from 'redis';
-let redisClient = Redis.createClient();
-cache = {
-  get: util.promisify(redisClient.get).bind(redisClient),
-  set: util.promisify(redisClient.set).bind(redisClient),
-};
-// markdown(md, cache).then(html => {
-//   console.log(html)
-//   // process.exit();
-// });
+// import Redis from 'redis';
+// let redisClient = Redis.createClient();
+// cache = {
+//   get: util.promisify(redisClient.get).bind(redisClient),
+//   set: util.promisify(redisClient.set).bind(redisClient),
+// };
 
-markdown(md2, null, null, {
+markdown(md, null, null, {
   markdownIt: {
     breaks: true
   },
   markdownItMath: {
-    inlineClose: 'qwqwqwqwq'
+    inlineClose: '$'
   },
+  markdownItMergeCells: false,
   pygments: {
     options: {
       classprefix: 'menci-'

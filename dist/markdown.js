@@ -8,9 +8,9 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _typeof2 = require('babel-runtime/helpers/typeof');
+var _assign = require('babel-runtime/core-js/object/assign');
 
-var _typeof3 = _interopRequireDefault(_typeof2);
+var _assign2 = _interopRequireDefault(_assign);
 
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
@@ -23,6 +23,10 @@ var _markdownIt2 = _interopRequireDefault(_markdownIt);
 var _markdownItMathLoose = require('markdown-it-math-loose');
 
 var _markdownItMathLoose2 = _interopRequireDefault(_markdownItMathLoose);
+
+var _markdownItMergeCells = require('markdown-it-merge-cells');
+
+var _markdownItMergeCells2 = _interopRequireDefault(_markdownItMergeCells);
 
 var _objectHash = require('object-hash');
 
@@ -78,8 +82,10 @@ exports.default = function () {
 
           case 8:
 
-            // Ignore it when options is not a object.
-            if ((typeof options === 'undefined' ? 'undefined' : (0, _typeof3.default)(options)) !== 'object') options = {};
+            // Merge options with default values and normalize non-object input for options.
+            options = (0, _assign2.default)({
+              markdownItMergeCells: true
+            }, options);
 
             // Maths and highlights are rendered asynchronously, so a UUID placeholder is
             // returned to markdown-it during markdown rendering process. After markdown
@@ -116,6 +122,11 @@ exports.default = function () {
               }
             }, options.markdownItMath));
 
+            // Inject merge table cell support.
+            if (options.markdownItMergeCells) {
+              renderer.use(_markdownItMergeCells2.default);
+            }
+
             htmlResult = renderer.render(input);
 
             if (callbackFilter) {
@@ -124,18 +135,18 @@ exports.default = function () {
             }
 
             // Do math and highlight rendering.
-            _context.next = 18;
+            _context.next = 19;
             return mathRenderer.doRender(function (uuid) {
               return htmlResult.indexOf(uuid) === -1;
             });
 
-          case 18:
-            _context.next = 20;
+          case 19:
+            _context.next = 21;
             return highlightRenderer.doRender(function (uuid) {
               return htmlResult.indexOf(uuid) === -1;
             });
 
-          case 20:
+          case 21:
 
             // Replace placeholders back.
             replacedHtmlResult = htmlResult;
@@ -147,17 +158,17 @@ exports.default = function () {
             // Set cache.
 
             if (!cache) {
-              _context.next = 25;
+              _context.next = 26;
               break;
             }
 
-            _context.next = 25;
+            _context.next = 26;
             return cache.set(cacheKey, replacedHtmlResult);
 
-          case 25:
+          case 26:
             return _context.abrupt('return', replacedHtmlResult);
 
-          case 26:
+          case 27:
           case 'end':
             return _context.stop();
         }

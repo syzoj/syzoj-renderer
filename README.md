@@ -24,6 +24,7 @@ console.log(await highlight(code, language));
 
 * `markdownIt`: overrides default options in `new MarkdownIt(options)`. (See [markdown-it](https://github.com/markdown-it/markdown-it))
 * `markdownItMath`: overrides default options in `markdownIt.use(MathdownItMath, options)`. (See [markdown-it-math-loose](https://github.com/Menci/markdown-it-math-loose))
+* `markdownItMergeCells`: Set to false to disable [markdown-it-merge-cells](https://github.com/Menci/markdown-it-merge-cells) in markdown tables, which will merge adjacent cells with same content in tables
 * `pygments`: overrides default options in `Pygments.pygmentize(code, options)`. (See [pygments-promise](https://github.com/Menci/pygments-promise))
 
 Return rendered HTML. Won't throw.
