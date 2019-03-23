@@ -27,14 +27,6 @@ export async function highlight(code, language, cache, options) {
 
   let result;
   try {
-    console.log(ObjectAssignDeep({
-      lexer: language,
-      format: 'html',
-      options: {
-        nowrap: true,
-        classprefix: 'pl-'
-      }
-    }, options));
     result = await Pygments.pygmentize(code, ObjectAssignDeep({
       lexer: language,
       format: 'html',

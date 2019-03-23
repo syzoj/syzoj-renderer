@@ -80,16 +80,7 @@ var highlight = exports.highlight = function () {
           case 10:
             result = void 0;
             _context.prev = 11;
-
-            console.log((0, _objectAssignDeep2.default)({
-              lexer: language,
-              format: 'html',
-              options: {
-                nowrap: true,
-                classprefix: 'pl-'
-              }
-            }, options));
-            _context.next = 15;
+            _context.next = 14;
             return _pygmentsPromise2.default.pygmentize(code, (0, _objectAssignDeep2.default)({
               lexer: language,
               format: 'html',
@@ -99,35 +90,35 @@ var highlight = exports.highlight = function () {
               }
             }, options));
 
-          case 15:
+          case 14:
             result = _context.sent;
-            _context.next = 21;
+            _context.next = 20;
             break;
 
-          case 18:
-            _context.prev = 18;
+          case 17:
+            _context.prev = 17;
             _context.t0 = _context['catch'](11);
 
             result = (0, _escapeHtml2.default)(code);
 
-          case 21:
+          case 20:
             if (!cache) {
-              _context.next = 24;
+              _context.next = 23;
               break;
             }
 
-            _context.next = 24;
+            _context.next = 23;
             return cache.set(cacheKey, result);
 
-          case 24:
+          case 23:
             return _context.abrupt('return', result);
 
-          case 25:
+          case 24:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[11, 18]]);
+    }, _callee, this, [[11, 17]]);
   }));
 
   return function highlight(_x, _x2, _x3, _x4) {
