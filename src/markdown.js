@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it';
-import MathdownItMath from 'markdown-it-math-loose';
+import MarkdownItMath from 'markdown-it-math-loose';
 import MarkdownItMergeCells from 'markdown-it-merge-cells';
 import ObjectHash from 'object-hash';
 import ObjectAssignDeep from 'object-assign-deep';
@@ -48,7 +48,7 @@ export default async function render(input, cache, callbackFilter, options) {
     highlight: (code, language) => highlightRenderer.addRenderTask(code, language)
   }, options.markdownIt));
 
-  renderer.use(MathdownItMath, ObjectAssignDeep({
+  renderer.use(MarkdownItMath, ObjectAssignDeep({
     inlineOpen: '$',
     inlineClose: '$',
     blockOpen: '$$',
