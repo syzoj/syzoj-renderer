@@ -84,50 +84,42 @@ var highlight = exports.highlight = function () {
               expandTab: null
             }, options);
 
-            if (!(language === 'plain')) {
-              _context.next = 11;
-              break;
-            }
-
-            return _context.abrupt('return', (0, _escapeHtml2.default)(code));
-
-          case 11:
             result = void 0;
-            _context.prev = 12;
+            _context.prev = 10;
 
             if (!(typeof options.highlighter === 'function')) {
-              _context.next = 19;
+              _context.next = 17;
               break;
             }
 
-            _context.next = 16;
+            _context.next = 14;
             return options.highlighter(code, language);
 
-          case 16:
+          case 14:
             result = _context.sent;
-            _context.next = 22;
+            _context.next = 20;
             break;
 
-          case 19:
-            _context.next = 21;
+          case 17:
+            _context.next = 19;
             return _pygmentsPromise2.default.pygmentize(code, (0, _objectAssignDeep2.default)({
               lexer: language
             }, options.pygments));
 
-          case 21:
+          case 19:
             result = _context.sent;
 
-          case 22:
-            _context.next = 27;
+          case 20:
+            _context.next = 25;
             break;
 
-          case 24:
-            _context.prev = 24;
-            _context.t0 = _context['catch'](12);
+          case 22:
+            _context.prev = 22;
+            _context.t0 = _context['catch'](10);
 
             result = (0, _escapeHtml2.default)(code);
 
-          case 27:
+          case 25:
 
             // Add wrapper.
             wrapper = Array.isArray(options.wrapper) ? options.wrapper : [];
@@ -141,22 +133,22 @@ var highlight = exports.highlight = function () {
             }
 
             if (!cache) {
-              _context.next = 34;
+              _context.next = 32;
               break;
             }
 
-            _context.next = 34;
+            _context.next = 32;
             return cache.set(cacheKey, result);
 
-          case 34:
+          case 32:
             return _context.abrupt('return', result);
 
-          case 35:
+          case 33:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[12, 24]]);
+    }, _callee, this, [[10, 22]]);
   }));
 
   return function highlight(_x, _x2, _x3, _x4) {

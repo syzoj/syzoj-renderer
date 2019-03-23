@@ -34,10 +34,6 @@ export async function highlight(code, language, cache, options) {
     expandTab: null
   }, options);
 
-  if (language === 'plain') {
-    return EscapeHTML(code);
-  }
-
   let result;
   try {
     if (typeof options.highlighter === 'function') {
