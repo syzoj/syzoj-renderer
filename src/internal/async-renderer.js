@@ -7,8 +7,12 @@ export default class AsyncRenderer {
     this.tasks = [];
   }
 
+  _generateUUID(uuidGenerator) {
+    return uuidGenerator();
+  }
+
   _addRenderTask(task) {
-    let uuid = UUID();
+    const uuid = this._generateUUID(UUID);
     this.tasks.push({
       uuid: uuid,
       task: task

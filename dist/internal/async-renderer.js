@@ -40,9 +40,14 @@ var AsyncRenderer = function () {
   }
 
   (0, _createClass3.default)(AsyncRenderer, [{
+    key: '_generateUUID',
+    value: function _generateUUID(uuidGenerator) {
+      return uuidGenerator();
+    }
+  }, {
     key: '_addRenderTask',
     value: function _addRenderTask(task) {
-      var uuid = (0, _uuid2.default)();
+      var uuid = this._generateUUID(_uuid2.default);
       this.tasks.push({
         uuid: uuid,
         task: task

@@ -38,7 +38,7 @@ export default async function render(input, cache, callbackFilter, options) {
 
   let highlightRenderer = new HighlightRenderer(cache, (uuid, result) => {
     uuidReplaces[uuid] = result;
-  }, options.pygments);
+  }, options.highlight);
 
   const renderer = new MarkdownIt(ObjectAssignDeep({
     html: true,

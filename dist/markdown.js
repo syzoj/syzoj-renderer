@@ -97,7 +97,7 @@ exports.default = function () {
             });
             highlightRenderer = new _highlightRenderer2.default(cache, function (uuid, result) {
               uuidReplaces[uuid] = result;
-            }, options.pygments);
+            }, options.highlight);
             renderer = new _markdownIt2.default((0, _objectAssignDeep2.default)({
               html: true,
               breaks: false,
