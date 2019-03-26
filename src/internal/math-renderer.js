@@ -77,6 +77,11 @@ export default class MathRenderer extends AsyncRenderer {
           'syzoj-renderer-mathjax': path.join(__dirname, 'mathjax/')
         },
         MathJax: {
+          Safe: {
+            allow: {
+              require: 'none'
+            }
+          },
           Reset: {
             resetMacroName: resetMacroName
           }

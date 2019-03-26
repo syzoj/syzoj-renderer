@@ -197,6 +197,11 @@ var MathRenderer = function (_AsyncRenderer) {
                       'syzoj-renderer-mathjax': _path2.default.join(__dirname, 'mathjax/')
                     },
                     MathJax: {
+                      Safe: {
+                        allow: {
+                          require: 'none'
+                        }
+                      },
                       Reset: {
                         resetMacroName: resetMacroName
                       }
