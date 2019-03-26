@@ -62,6 +62,7 @@ Return highlighted code in HTML. Won't throw.
     * Maths are rendered to `<svg>` HTML elements, `dist/math.css` is required to display properly.
     * Maths with spaces within dollar sign like `$ a+b $` will work.
     * Complex maths like `$ \sum\limits_{i=0}^na_i $` won't be broken by Markdown.
+    * To ensure each document's math rendering state isolated, `\require` is disabled.
     * Maths that failed to render would result in displaying error message.
 
 # License
