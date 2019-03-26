@@ -5,36 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.highlight = undefined;
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var highlight = exports.highlight = function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(code, language, cache, options) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee(code, language, cache, options) {
     var cacheKey, cachedResult, result, wrapper;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
@@ -181,19 +159,27 @@ var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var HighlightRenderer = function (_AsyncRenderer) {
-  (0, _inherits3.default)(HighlightRenderer, _AsyncRenderer);
+  _inherits(HighlightRenderer, _AsyncRenderer);
 
   function HighlightRenderer(cache, callbackAddReplace, options) {
-    (0, _classCallCheck3.default)(this, HighlightRenderer);
+    _classCallCheck(this, HighlightRenderer);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (HighlightRenderer.__proto__ || (0, _getPrototypeOf2.default)(HighlightRenderer)).call(this, cache, callbackAddReplace));
+    var _this = _possibleConstructorReturn(this, (HighlightRenderer.__proto__ || Object.getPrototypeOf(HighlightRenderer)).call(this, cache, callbackAddReplace));
 
     _this.options = options;
     return _this;
   }
 
-  (0, _createClass3.default)(HighlightRenderer, [{
+  _createClass(HighlightRenderer, [{
     key: 'addRenderTask',
     value: function addRenderTask(code, language) {
       return this._addRenderTask({
@@ -223,7 +209,7 @@ var HighlightRenderer = function (_AsyncRenderer) {
   }, {
     key: '_doRender',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(task) {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee2(task) {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -249,6 +235,7 @@ var HighlightRenderer = function (_AsyncRenderer) {
       return _doRender;
     }()
   }]);
+
   return HighlightRenderer;
 }(_asyncRenderer2.default);
 

@@ -1,10 +1,6 @@
 "use strict";
 
-var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var config = MathJax.Hub.CombineConfig('Reset', {});
 
@@ -31,7 +27,7 @@ MathJax.Hub.Register.StartupHook("TeX begingroup Ready", function () {
 
   // Define the reset macro to clear the stack.
   TEX.Definitions.macros[config.resetMacroName] = config.resetMacroName;
-  TEX.Parse.Augment((0, _defineProperty3.default)({}, config.resetMacroName, function (name) {
+  TEX.Parse.Augment(_defineProperty({}, config.resetMacroName, function (name) {
     rootStack.Clear();
   }));
 });
