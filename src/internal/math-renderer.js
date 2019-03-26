@@ -72,7 +72,7 @@ export default class MathRenderer extends AsyncRenderer {
         errorHandler: (id, wrapperNode, sourceFormula, sourceFormat, errors) => {
           wrapperNode.innerHTML = formatErrorMessage(errors.join('\n'));
         },
-        extensions: '[syzoj-renderer-mathjax]/reset.js,TeX/begingroup.js,TeX/newcommand.js',
+        extensions: '[syzoj-renderer-mathjax]/reset.js,TeX/begingroup.js,TeX/newcommand.js,Safe.js',
         paths: {
           'syzoj-renderer-mathjax': path.join(__dirname, 'mathjax/')
         },

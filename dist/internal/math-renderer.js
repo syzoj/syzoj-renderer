@@ -192,7 +192,7 @@ var MathRenderer = function (_AsyncRenderer) {
                     errorHandler: function errorHandler(id, wrapperNode, sourceFormula, sourceFormat, errors) {
                       wrapperNode.innerHTML = formatErrorMessage(errors.join('\n'));
                     },
-                    extensions: '[syzoj-renderer-mathjax]/reset.js,TeX/begingroup.js,TeX/newcommand.js',
+                    extensions: '[syzoj-renderer-mathjax]/reset.js,TeX/begingroup.js,TeX/newcommand.js,Safe.js',
                     paths: {
                       'syzoj-renderer-mathjax': _path2.default.join(__dirname, 'mathjax/')
                     },
