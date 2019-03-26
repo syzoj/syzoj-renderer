@@ -43,7 +43,10 @@ export async function highlight(code, language, cache, options) {
         lexer: language
       }, options.pygments));
     }
-  } catch (e) {
+  } catch (e) {}
+
+  // May error rendering.
+  if (typeof result !== 'string' || result.length === 0) {
     result = EscapeHTML(code);
   }
 
