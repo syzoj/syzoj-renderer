@@ -1,8 +1,17 @@
 import util from 'util';
+import path from 'path';
 import MathJaxNodePage from 'mathjax-node-page';
 import EscapeHTML from 'escape-html';
+import UUID from 'uuid';
+import RandomString from 'randomstring';
 
 import AsyncRenderer from './async-renderer';
+
+// Generate a random macro name for MathJax's reset macro.
+const resetMacroName = 'resetMacro' + RandomString.generate({
+  length: 16,
+  charset: 'alphabetic'
+});
 
 function formatErrorMessage(message) {
   let htmlContext = EscapeHTML(message.trim('\n')).split('\n').join('<br>');
@@ -31,8 +40,17 @@ export default class MathRenderer extends AsyncRenderer {
   async doRender(callbackCheckFiltered) {
     const jsdom = new MathJaxNodePage.JSDOM(), document = jsdom.window.document;
 
-    const tasks = this.tasks.filter(task => !callbackCheckFiltered(task.uuid));
-    for (const task of tasks) {
+    const tasks = this.tasks.filter(task => !callbackCheckFiltered(task.uuid)),
+          // Add a reset macro to the beginning of the document, to let MathJax reset
+          // previous user-defined macros first.
+          tasksAndReset = [{
+            uuid: UUID(),
+            task: {
+              texCode: '\\' + resetMacroName,
+              displayMode: false
+            }
+          }, ...tasks];
+    for (const task of tasksAndReset) {
       const { uuid, task: math } = task;
 
       const scriptTag = document.createElement('script');
@@ -53,6 +71,15 @@ export default class MathRenderer extends AsyncRenderer {
         cssInline: false,
         errorHandler: (id, wrapperNode, sourceFormula, sourceFormat, errors) => {
           wrapperNode.innerHTML = formatErrorMessage(errors.join('\n'));
+        },
+        extensions: '[syzoj-renderer-mathjax]/reset.js,TeX/begingroup.js,TeX/newcommand.js',
+        paths: {
+          'syzoj-renderer-mathjax': path.join(__dirname, 'mathjax/')
+        },
+        MathJax: {
+          Reset: {
+            resetMacroName: resetMacroName
+          }
         }
       }, {}, resolve);
     });

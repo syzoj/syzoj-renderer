@@ -16,6 +16,10 @@ var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -44,6 +48,10 @@ var _util = require('util');
 
 var _util2 = _interopRequireDefault(_util);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 var _mathjaxNodePage = require('mathjax-node-page');
 
 var _mathjaxNodePage2 = _interopRequireDefault(_mathjaxNodePage);
@@ -52,11 +60,25 @@ var _escapeHtml = require('escape-html');
 
 var _escapeHtml2 = _interopRequireDefault(_escapeHtml);
 
+var _uuid = require('uuid');
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+var _randomstring = require('randomstring');
+
+var _randomstring2 = _interopRequireDefault(_randomstring);
+
 var _asyncRenderer = require('./async-renderer');
 
 var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Generate a random macro name for MathJax's reset macro.
+var resetMacroName = 'resetMacro' + _randomstring2.default.generate({
+  length: 16,
+  charset: 'alphabetic'
+});
 
 function formatErrorMessage(message) {
   var htmlContext = (0, _escapeHtml2.default)(message.trim('\n')).split('\n').join('<br>');
@@ -90,7 +112,7 @@ var MathRenderer = function (_AsyncRenderer) {
     key: 'doRender',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(callbackCheckFiltered) {
-        var jsdom, document, tasks, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, task, uuid, math, scriptTag, divTag, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _task, result, errorMessage;
+        var jsdom, document, tasks, tasksAndReset, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, task, uuid, math, scriptTag, divTag, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _task, result, errorMessage;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -99,13 +121,19 @@ var MathRenderer = function (_AsyncRenderer) {
                 jsdom = new _mathjaxNodePage2.default.JSDOM(), document = jsdom.window.document;
                 tasks = this.tasks.filter(function (task) {
                   return !callbackCheckFiltered(task.uuid);
-                });
+                }), tasksAndReset = [{
+                  uuid: (0, _uuid2.default)(),
+                  task: {
+                    texCode: '\\' + resetMacroName,
+                    displayMode: false
+                  }
+                }].concat((0, _toConsumableArray3.default)(tasks));
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
                 _context.prev = 5;
 
-                for (_iterator = (0, _getIterator3.default)(tasks); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                for (_iterator = (0, _getIterator3.default)(tasksAndReset); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   task = _step.value;
                   uuid = task.uuid, math = task.task;
                   scriptTag = document.createElement('script');
@@ -163,6 +191,15 @@ var MathRenderer = function (_AsyncRenderer) {
                     cssInline: false,
                     errorHandler: function errorHandler(id, wrapperNode, sourceFormula, sourceFormat, errors) {
                       wrapperNode.innerHTML = formatErrorMessage(errors.join('\n'));
+                    },
+                    extensions: '[syzoj-renderer-mathjax]/reset.js,TeX/begingroup.js,TeX/newcommand.js',
+                    paths: {
+                      'syzoj-renderer-mathjax': _path2.default.join(__dirname, 'mathjax/')
+                    },
+                    MathJax: {
+                      Reset: {
+                        resetMacroName: resetMacroName
+                      }
                     }
                   }, {}, resolve);
                 });

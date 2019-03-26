@@ -110,16 +110,19 @@ var highlight = exports.highlight = function () {
             result = _context.sent;
 
           case 20:
-            _context.next = 25;
+            _context.next = 24;
             break;
 
           case 22:
             _context.prev = 22;
             _context.t0 = _context['catch'](10);
 
-            result = (0, _escapeHtml2.default)(code);
+          case 24:
 
-          case 25:
+            // May error rendering.
+            if (typeof result !== 'string' || result.length === 0) {
+              result = (0, _escapeHtml2.default)(code);
+            }
 
             // Add wrapper.
             wrapper = Array.isArray(options.wrapper) ? options.wrapper : [];
