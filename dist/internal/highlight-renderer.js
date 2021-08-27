@@ -18,10 +18,12 @@ var highlight = exports.highlight = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            if (languageMap[language]) language = languageMap[language];
+
             cacheKey = void 0;
 
             if (!cache) {
-              _context.next = 8;
+              _context.next = 9;
               break;
             }
 
@@ -34,20 +36,20 @@ var highlight = exports.highlight = function () {
               }
             });
 
-            _context.next = 5;
+            _context.next = 6;
             return cache.get(cacheKey);
 
-          case 5:
+          case 6:
             cachedResult = _context.sent;
 
             if (!cachedResult) {
-              _context.next = 8;
+              _context.next = 9;
               break;
             }
 
             return _context.abrupt('return', cachedResult);
 
-          case 8:
+          case 9:
 
             options = (0, _objectAssignDeep2.default)({
               pygments: {
@@ -63,41 +65,33 @@ var highlight = exports.highlight = function () {
             }, options);
 
             result = void 0;
-            _context.prev = 10;
+            _context.prev = 11;
 
             if (!(typeof options.highlighter === 'function')) {
-              _context.next = 17;
+              _context.next = 18;
               break;
             }
 
-            _context.next = 14;
+            _context.next = 15;
             return options.highlighter(code, language);
 
-          case 14:
+          case 15:
             result = _context.sent;
-            _context.next = 20;
+            _context.next = 19;
             break;
 
-          case 17:
-            _context.next = 19;
-            return queue.add(function () {
-              return _pygmentsPromise2.default.pygmentize(code, (0, _objectAssignDeep2.default)({
-                lexer: language
-              }, options.pygments));
-            });
+          case 18:
+            result = _prismjs2.default.highlight(code, _prismjs2.default.languages[language], language);
 
           case 19:
-            result = _context.sent;
-
-          case 20:
-            _context.next = 24;
+            _context.next = 23;
             break;
 
-          case 22:
-            _context.prev = 22;
-            _context.t0 = _context['catch'](10);
+          case 21:
+            _context.prev = 21;
+            _context.t0 = _context['catch'](11);
 
-          case 24:
+          case 23:
 
             // May error rendering.
             if (typeof result !== 'string' || result.length === 0) {
@@ -116,22 +110,22 @@ var highlight = exports.highlight = function () {
             }
 
             if (!cache) {
-              _context.next = 32;
+              _context.next = 31;
               break;
             }
 
-            _context.next = 32;
+            _context.next = 31;
             return cache.set(cacheKey, result);
 
-          case 32:
+          case 31:
             return _context.abrupt('return', result);
 
-          case 33:
+          case 32:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, this, [[10, 22]]);
+    }, _callee, this, [[11, 21]]);
   }));
 
   return function highlight(_x, _x2, _x3, _x4) {
@@ -139,9 +133,13 @@ var highlight = exports.highlight = function () {
   };
 }();
 
-var _pygmentsPromise = require('pygments-promise');
+var _prismjs = require('prismjs');
 
-var _pygmentsPromise2 = _interopRequireDefault(_pygmentsPromise);
+var _prismjs2 = _interopRequireDefault(_prismjs);
+
+var _components = require('prismjs/components/');
+
+var _components2 = _interopRequireDefault(_components);
 
 var _escapeHtml = require('escape-html');
 
@@ -154,10 +152,6 @@ var _objectHash2 = _interopRequireDefault(_objectHash);
 var _objectAssignDeep = require('object-assign-deep');
 
 var _objectAssignDeep2 = _interopRequireDefault(_objectAssignDeep);
-
-var _promiseQueue = require('promise-queue');
-
-var _promiseQueue2 = _interopRequireDefault(_promiseQueue);
 
 var _asyncRenderer = require('./async-renderer');
 
@@ -173,7 +167,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var queue = new _promiseQueue2.default(5);
+(0, _components2.default)();
+var languageMap = {
+  'c++': 'cpp'
+};
 
 var HighlightRenderer = function (_AsyncRenderer) {
   _inherits(HighlightRenderer, _AsyncRenderer);

@@ -14,33 +14,15 @@ var _util = require('util');
 
 var _util2 = _interopRequireDefault(_util);
 
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
-var _mathjaxNodePage = require('mathjax-node-page');
-
-var _mathjaxNodePage2 = _interopRequireDefault(_mathjaxNodePage);
-
 var _escapeHtml = require('escape-html');
 
 var _escapeHtml2 = _interopRequireDefault(_escapeHtml);
-
-var _uuid = require('uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
-var _randomstring = require('randomstring');
-
-var _randomstring2 = _interopRequireDefault(_randomstring);
 
 var _asyncRenderer = require('./async-renderer');
 
 var _asyncRenderer2 = _interopRequireDefault(_asyncRenderer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -50,16 +32,45 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// Generate a random macro name for MathJax's reset macro.
-var resetMacroName = 'resetMacro' + _randomstring2.default.generate({
-  length: 16,
-  charset: 'alphabetic'
-});
+var getMathjax = function getMathjax() {
+  var _require = require('mathjax-full/js/mathjax.js'),
+      mathjax = _require.mathjax;
+
+  var _require2 = require('mathjax-full/js/input/tex.js'),
+      TeX = _require2.TeX;
+
+  var _require3 = require('mathjax-full/js/output/svg.js'),
+      SVG = _require3.SVG;
+
+  var _require4 = require('mathjax-full/js/adaptors/liteAdaptor.js'),
+      liteAdaptor = _require4.liteAdaptor;
+
+  var _require5 = require('mathjax-full/js/handlers/html.js'),
+      RegisterHTMLHandler = _require5.RegisterHTMLHandler;
+
+  var _require6 = require('mathjax-full/js/input/tex/AllPackages.js'),
+      AllPackages = _require6.AllPackages;
+
+  var adaptor = liteAdaptor();
+  RegisterHTMLHandler(adaptor);
+  var tex = new TeX({ packages: AllPackages });
+  var svg = new SVG();
+  var html = mathjax.document('', { InputJax: tex, OutputJax: svg });
+
+  /**
+   * @param input {string}
+   * @param displayMode {boolean}
+   */
+  return function (input, displayMode) {
+    var node = html.convert(input, { display: displayMode });
+    return adaptor.innerHTML(node);
+  };
+};
 
 function formatErrorMessage(message) {
   var htmlContext = (0, _escapeHtml2.default)(message.trim('\n')).split('\n').join('<br>');
   return '<span class="math-rendering-error-message">' + htmlContext + '</span>';
-}
+};
 
 // This class is previously intented to call KaTeX and MathJax in _doRender
 // to render asynchronously, but then I moved to render all maths within
@@ -88,164 +99,93 @@ var MathRenderer = function (_AsyncRenderer) {
     key: 'doRender',
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee(callbackCheckFiltered) {
-        var jsdom, document, tasks, tasksAndReset, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, task, uuid, math, scriptTag, divTag, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _task, result, errorMessage;
+        var mathjax, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, task, result, errorMessage;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                jsdom = new _mathjaxNodePage2.default.JSDOM(), document = jsdom.window.document;
-                tasks = this.tasks.filter(function (task) {
-                  return !callbackCheckFiltered(task.uuid);
-                }), tasksAndReset = [{
-                  uuid: (0, _uuid2.default)(),
-                  task: {
-                    texCode: '\\' + resetMacroName,
-                    displayMode: false
-                  }
-                }].concat(_toConsumableArray(tasks));
+                mathjax = getMathjax();
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context.prev = 5;
+                _context.prev = 4;
+                _iterator = this.tasks[Symbol.iterator]();
 
-                for (_iterator = tasksAndReset[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                  task = _step.value;
-                  uuid = task.uuid, math = task.task;
-                  scriptTag = document.createElement('script');
-
-                  scriptTag.type = 'math/tex';
-                  if (math.displayMode) scriptTag.type += '; mode=display';
-                  scriptTag.text = math.texCode;
-
-                  divTag = document.createElement('div');
-
-                  divTag.id = uuid;
-                  divTag.appendChild(scriptTag);
-
-                  document.body.appendChild(divTag);
+              case 6:
+                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                  _context.next = 17;
+                  break;
                 }
 
-                _context.next = 13;
+                task = _step.value;
+
+                if (!callbackCheckFiltered(task.uuid)) {
+                  _context.next = 10;
+                  break;
+                }
+
+                return _context.abrupt('continue', 14);
+
+              case 10:
+                result = null;
+
+                try {
+                  result = mathjax(task.task.texCode, task.task.displayMode);
+                } catch (e) {
+                  errorMessage = 'Failed to render ' + (task.task.displayMode ? 'display' : 'inline') + ' math: ' + _util2.default.inspect(task.task.texCode) + '\n' + e.toString();
+
+                  result = formatErrorMessage(errorMessage);
+                }
+
+                if (task.task.displayMode) result = '<p style="text-align: center; ">' + result + '</p>';
+                this.callbackAddReplace(task.uuid, result);
+
+              case 14:
+                _iteratorNormalCompletion = true;
+                _context.next = 6;
                 break;
 
-              case 9:
-                _context.prev = 9;
-                _context.t0 = _context['catch'](5);
+              case 17:
+                _context.next = 23;
+                break;
+
+              case 19:
+                _context.prev = 19;
+                _context.t0 = _context['catch'](4);
                 _didIteratorError = true;
                 _iteratorError = _context.t0;
 
-              case 13:
-                _context.prev = 13;
-                _context.prev = 14;
+              case 23:
+                _context.prev = 23;
+                _context.prev = 24;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
-              case 16:
-                _context.prev = 16;
+              case 26:
+                _context.prev = 26;
 
                 if (!_didIteratorError) {
-                  _context.next = 19;
+                  _context.next = 29;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 19:
-                return _context.finish(16);
-
-              case 20:
-                return _context.finish(13);
-
-              case 21:
-                _context.next = 23;
-                return new Promise(function (resolve, reject) {
-                  _mathjaxNodePage2.default.mjpage(jsdom, {
-                    output: 'svg',
-                    cssInline: false,
-                    errorHandler: function errorHandler(id, wrapperNode, sourceFormula, sourceFormat, errors) {
-                      wrapperNode.innerHTML = formatErrorMessage(errors.join('\n'));
-                    },
-                    extensions: '[syzoj-renderer-mathjax]/reset.js,TeX/begingroup.js,TeX/newcommand.js,Safe.js',
-                    paths: {
-                      'syzoj-renderer-mathjax': _path2.default.join(__dirname, 'mathjax/')
-                    },
-                    MathJax: {
-                      Safe: {
-                        allow: {
-                          require: 'none'
-                        }
-                      },
-                      Reset: {
-                        resetMacroName: resetMacroName
-                      }
-                    }
-                  }, {}, resolve);
-                });
-
-              case 23:
-                _iteratorNormalCompletion2 = true;
-                _didIteratorError2 = false;
-                _iteratorError2 = undefined;
-                _context.prev = 26;
-
-
-                for (_iterator2 = tasks[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                  _task = _step2.value;
-                  result = null;
-
-                  try {
-                    result = document.getElementById(_task.uuid).innerHTML;
-                  } catch (e) {
-                    errorMessage = 'Failed to render ' + (_task.task.displayMode ? 'display' : 'inline') + ' math: ' + _util2.default.inspect(_task.task.texCode) + '\n' + e.toString();
-
-                    result = formatErrorMessage(errorMessage);
-                  }
-
-                  if (_task.task.displayMode) result = '<p style="text-align: center; ">' + result + '</p>';
-                  this.callbackAddReplace(_task.uuid, result);
-                }
-                _context.next = 34;
-                break;
+              case 29:
+                return _context.finish(26);
 
               case 30:
-                _context.prev = 30;
-                _context.t1 = _context['catch'](26);
-                _didIteratorError2 = true;
-                _iteratorError2 = _context.t1;
+                return _context.finish(23);
 
-              case 34:
-                _context.prev = 34;
-                _context.prev = 35;
-
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                  _iterator2.return();
-                }
-
-              case 37:
-                _context.prev = 37;
-
-                if (!_didIteratorError2) {
-                  _context.next = 40;
-                  break;
-                }
-
-                throw _iteratorError2;
-
-              case 40:
-                return _context.finish(37);
-
-              case 41:
-                return _context.finish(34);
-
-              case 42:
+              case 31:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[5, 9, 13, 21], [14,, 16, 20], [26, 30, 34, 42], [35,, 37, 41]]);
+        }, _callee, this, [[4, 19, 23, 31], [24,, 26, 30]]);
       }));
 
       function doRender(_x) {

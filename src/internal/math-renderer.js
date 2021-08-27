@@ -1,16 +1,31 @@
 import util from 'util';
-import path from 'path';
-import MathJaxNodePage from 'mathjax-node-page';
 import EscapeHTML from 'escape-html';
-import UUID from 'uuid';
-import RandomString from 'randomstring';
 
 import AsyncRenderer from './async-renderer';
 
-// Generate a random macro name for MathJax's reset macro.
-const resetMacroName = 'resetMacro' + RandomString.generate({
-  length: 16,
-  charset: 'alphabetic'
+const getMathjax = (() => {
+  const { mathjax } = require('mathjax-full/js/mathjax.js');
+  const { TeX } = require('mathjax-full/js/input/tex.js');
+  const { SVG } = require('mathjax-full/js/output/svg.js');
+  const { liteAdaptor } = require('mathjax-full/js/adaptors/liteAdaptor.js');
+  const { RegisterHTMLHandler } = require('mathjax-full/js/handlers/html.js');
+
+  const { AllPackages } = require('mathjax-full/js/input/tex/AllPackages.js');
+
+  const adaptor = liteAdaptor();
+  RegisterHTMLHandler(adaptor);
+  const tex = new TeX({ packages: AllPackages });
+  const svg = new SVG();
+  const html = mathjax.document('', { InputJax: tex, OutputJax: svg });
+
+  /**
+   * @param input {string}
+   * @param displayMode {boolean}
+   */
+  return (input, displayMode) => {
+    const node = html.convert(input, { display: displayMode });
+    return adaptor.innerHTML(node);
+  }
 });
 
 function formatErrorMessage(message) {
@@ -18,7 +33,7 @@ function formatErrorMessage(message) {
   return '<span class="math-rendering-error-message">'
         + htmlContext
         + '</span>';
-}
+};
 
 // This class is previously intented to call KaTeX and MathJax in _doRender
 // to render asynchronously, but then I moved to render all maths within
@@ -38,61 +53,14 @@ export default class MathRenderer extends AsyncRenderer {
   }
 
   async doRender(callbackCheckFiltered) {
-    const jsdom = new MathJaxNodePage.JSDOM(), document = jsdom.window.document;
+    const mathjax = getMathjax();
 
-    const tasks = this.tasks.filter(task => !callbackCheckFiltered(task.uuid)),
-          // Add a reset macro to the beginning of the document, to let MathJax reset
-          // previous user-defined macros first.
-          tasksAndReset = [{
-            uuid: UUID(),
-            task: {
-              texCode: '\\' + resetMacroName,
-              displayMode: false
-            }
-          }, ...tasks];
-    for (const task of tasksAndReset) {
-      const { uuid, task: math } = task;
+    for (const task of this.tasks) {
+      if (callbackCheckFiltered(task.uuid)) continue;
 
-      const scriptTag = document.createElement('script');
-      scriptTag.type = 'math/tex';
-      if (math.displayMode) scriptTag.type += '; mode=display';
-      scriptTag.text = math.texCode;
-
-      const divTag = document.createElement('div');
-      divTag.id = uuid;
-      divTag.appendChild(scriptTag);
-
-      document.body.appendChild(divTag);
-    }
-
-    await new Promise((resolve, reject) => {
-      MathJaxNodePage.mjpage(jsdom, {
-        output: 'svg',
-        cssInline: false,
-        errorHandler: (id, wrapperNode, sourceFormula, sourceFormat, errors) => {
-          wrapperNode.innerHTML = formatErrorMessage(errors.join('\n'));
-        },
-        extensions: '[syzoj-renderer-mathjax]/reset.js,TeX/begingroup.js,TeX/newcommand.js,Safe.js',
-        paths: {
-          'syzoj-renderer-mathjax': path.join(__dirname, 'mathjax/')
-        },
-        MathJax: {
-          Safe: {
-            allow: {
-              require: 'none'
-            }
-          },
-          Reset: {
-            resetMacroName: resetMacroName
-          }
-        }
-      }, {}, resolve);
-    });
-
-    for (const task of tasks) {
       let result = null;
       try {
-        result = document.getElementById(task.uuid).innerHTML;
+        result = mathjax(task.task.texCode, task.task.displayMode);
       } catch (e) {
         let errorMessage = `Failed to render ${task.task.displayMode ? 'display' : 'inline'} math: `
                          + util.inspect(task.task.texCode) + '\n'
