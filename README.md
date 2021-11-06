@@ -58,7 +58,7 @@ Return highlighted code in HTML. Won't throw.
     * If no `pygmentize` is available, it'll always return unhighlighted code.
     * `pygmentize`'s default commandline arguments are: `pygmentize -l <language> -f html -P nowrap=false -P classprefix=pl-`.
     * A theme CSS is required to display highlighted code properly. See [Generating styles](http://pygments.org/docs/cmdline/#generating-styles) section of pygments's document.
-* Math backend is [mathjax-node-page](https://github.com/pkra/mathjax-node-page).
+* Math backend is [MathJax 3](https://www.mathjax.org).
     * Maths are rendered to `<svg>` HTML elements, `dist/math.css` is required to display properly.
     * Maths with spaces within dollar sign like `$ a+b $` will work.
     * Complex maths like `$ \sum\limits_{i=0}^na_i $` won't be broken by Markdown.
