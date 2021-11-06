@@ -24,6 +24,9 @@ const getMathjax = (() => {
    */
   return (input, displayMode) => {
     const node = html.convert(input, { display: displayMode });
+    let title = adaptor.create('title');
+    adaptor.append(title, adaptor.text(input));
+    adaptor.insert(title, node.children[0].children[0]);
     return adaptor.innerHTML(node);
   }
 });
