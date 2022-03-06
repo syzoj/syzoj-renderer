@@ -63,9 +63,6 @@ var getMathjax = function getMathjax() {
    */
   return function (input, displayMode) {
     var node = html.convert(input, { display: displayMode });
-    var title = adaptor.create('title');
-    adaptor.append(title, adaptor.text(input));
-    adaptor.insert(title, node.children[0].children[0]);
     return adaptor.innerHTML(node);
   };
 };
