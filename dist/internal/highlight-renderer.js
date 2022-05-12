@@ -52,14 +52,6 @@ var highlight = exports.highlight = function () {
           case 9:
 
             options = (0, _objectAssignDeep2.default)({
-              pygments: {
-                lexer: language,
-                format: 'html',
-                options: {
-                  nowrap: true,
-                  classprefix: 'pl-'
-                }
-              },
               wrapper: ['<pre><code>', '</code></pre>'],
               expandTab: null
             }, options);
@@ -81,7 +73,7 @@ var highlight = exports.highlight = function () {
             break;
 
           case 18:
-            result = _prismjs2.default.highlight(code, _prismjs2.default.languages[language], language);
+            result = _node2.default.highlight(code, language, "hl-").html;
 
           case 19:
             _context.next = 23;
@@ -133,13 +125,9 @@ var highlight = exports.highlight = function () {
   };
 }();
 
-var _prismjs = require('prismjs');
+var _node = require('@syntect/node');
 
-var _prismjs2 = _interopRequireDefault(_prismjs);
-
-var _components = require('prismjs/components/');
-
-var _components2 = _interopRequireDefault(_components);
+var _node2 = _interopRequireDefault(_node);
 
 var _escapeHtml = require('escape-html');
 
@@ -167,7 +155,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-(0, _components2.default)();
 var languageMap = {
   'c++': 'cpp'
 };

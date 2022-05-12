@@ -35,7 +35,7 @@ Return rendered HTML. Won't throw.
 
 ## `async highlight(code, language[, cache, options])`
 
-Highlight some code with pygments.
+Highlight some code with syntect.
 
 `code` is the code to be highlighted. `language` is `code`'s language.
 
@@ -43,8 +43,7 @@ Highlight some code with pygments.
 
 `options` is a object, may contain:
 
-* `pygments`: Overrides default options in `Pygments.pygmentize(code, options)`. (See [pygments-promise](https://github.com/Menci/pygments-promise))
-* `highlighter`: Pass a function `async function (code, language)` to replace the defualt pygments highlighter. If a function is passed, pygments won't be used and `pygments` option will be ignored.
+* `highlighter`: Pass a function `async function (code, language)` to replace the defualt highlighter.
 * `wrapper`: An array `[before, after]`. Highlighted code's HTML will be wrapped by `before` and `after`. Defaults to `['<pre><code>', '</code></pre>']`.
 
 Return highlighted code in HTML. Won't throw.
@@ -54,12 +53,9 @@ Return highlighted code in HTML. Won't throw.
 * Markdown backend is [markdown-it](https://github.com/markdown-it/markdown-it).
     * GFM is supported.
     * By default, `linkify` and `html` are enabled, `typographer` and `breaks` are disabled.
-* By default, code highlight's backend is [pygments](http://pygments.org), which requires pygments to be installed.
-    * If no `pygmentize` is available, it'll always return unhighlighted code.
-    * `pygmentize`'s default commandline arguments are: `pygmentize -l <language> -f html -P nowrap=false -P classprefix=pl-`.
-    * A theme CSS is required to display highlighted code properly. See [Generating styles](http://pygments.org/docs/cmdline/#generating-styles) section of pygments's document.
+* By default, code highlight's backend is [syntect](https://github.com/Menci/syntect-js).
+    * A theme CSS is required to display highlighted code properly. See syntect-js's [Usage](https://github.com/Menci/syntect-js#usage). The default prefix is `hl-`.
 * Math backend is [MathJax 3](https://www.mathjax.org).
-    * Maths are rendered to `<svg>` HTML elements, `dist/math.css` is required to display properly.
     * Maths with spaces within dollar sign like `$ a+b $` will work.
     * Complex maths like `$ \sum\limits_{i=0}^na_i $` won't be broken by Markdown.
     * To ensure each document's math rendering state isolated, `\require` is disabled.

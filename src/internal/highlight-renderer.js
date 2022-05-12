@@ -1,12 +1,10 @@
-import Prism from 'prismjs';
-import loadPrismLanguages from 'prismjs/components/';
+import syntect from '@syntect/node';
 import EscapeHTML from 'escape-html';
 import ObjectHash from 'object-hash';
 import ObjectAssignDeep from 'object-assign-deep';
 
 import AsyncRenderer from './async-renderer';
 
-loadPrismLanguages();
 const languageMap = {
   'c++': 'cpp'
 };
@@ -30,14 +28,6 @@ export async function highlight(code, language, cache, options) {
   }
 
   options = ObjectAssignDeep({
-    pygments: {
-      lexer: language,
-      format: 'html',
-      options: {
-        nowrap: true,
-        classprefix: 'pl-'
-      }
-    },
     wrapper: ['<pre><code>', '</code></pre>'],
     expandTab: null
   }, options);
@@ -47,7 +37,7 @@ export async function highlight(code, language, cache, options) {
     if (typeof options.highlighter === 'function') {
       result = await options.highlighter(code, language);
     } else {
-      result = Prism.highlight(code, Prism.languages[language], language);
+      result = syntect.highlight(code, language, "hl-").html;
     }
   } catch (e) {}
 

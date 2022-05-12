@@ -2,6 +2,90 @@
 # yarn lockfile v1
 
 
+"@syntect/node-android-arm-eabi@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-android-arm-eabi/-/node-android-arm-eabi-0.0.4.tgz#18dbc46b508fac0811f8ef78f0535acc0041ef48"
+  integrity sha512-naJKb2bf7RNGmZBz7p1PHCQyIINa8S9hVe9hU0Lon7wPFIHpwtfkGZ5Ohr+nTdYt19j969ZmYdRUVOQfOJ481Q==
+
+"@syntect/node-android-arm64@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-android-arm64/-/node-android-arm64-0.0.4.tgz#b3ac4a285591b16f6a6dcca9a68f72cc7ba2b503"
+  integrity sha512-HKur30/rlcVTTM8whGyHNmL+i55AfYFeWs9kX8lobfZftivoIqM4UowG36Mi0f8VF8AqPQgI6i3RPnGm3B3V4A==
+
+"@syntect/node-darwin-arm64@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-darwin-arm64/-/node-darwin-arm64-0.0.4.tgz#598caca68bae0319b1410c168b23d5236021eba1"
+  integrity sha512-lVxvwZoAUHNvroARNBOkTRwMMT3paHbz0xyYgK4byhWHFN1todv351eYbeJ2q7vmZnYiw6F1yNUFyQ8zK1zEcQ==
+
+"@syntect/node-darwin-x64@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-darwin-x64/-/node-darwin-x64-0.0.4.tgz#2f60025b29b05393aa6f104763d8b017f4a4f13c"
+  integrity sha512-g3+cbq8SSXZyt8hbRN8YKoUBYW5/SeT4NwntueuxtNya3YrRCFUVVBJAXTzKf1b4e/wUNr1pDq0SRzdeiPPJzQ==
+
+"@syntect/node-freebsd-x64@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-freebsd-x64/-/node-freebsd-x64-0.0.4.tgz#ddf8f562eb0c799909cb4df806b19a0349549aee"
+  integrity sha512-JAlh8w0cS9xZQr1MAomFVvo/JDDX/i85/hRuYeLe6edJS4ZlBGz+lc/YaWlmniUMWSXn2sxHOx90LdIMpElWKg==
+
+"@syntect/node-linux-arm-gnueabihf@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-linux-arm-gnueabihf/-/node-linux-arm-gnueabihf-0.0.4.tgz#265a805dbbd97ddce1b1df0724df59a7c692a479"
+  integrity sha512-tw4Lv/Nw/WqJqgBnVmY9kUzqNdksaKcTnH1cCbmyZEPLqs0P4UCw6CBa6Tor/GWFjItwAP6YAsUNWPwA/0CmHw==
+
+"@syntect/node-linux-arm64-gnu@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-linux-arm64-gnu/-/node-linux-arm64-gnu-0.0.4.tgz#174443e6d187f68aceaaa57135a6da0d1f827cc0"
+  integrity sha512-AXH/l8FvO5Xt1RWhQOiMOcO9hnw7uQaqDpjmL2t6EmRcTYPvoZD5TnMNGMU7nt7v1Xd9R73MFUTVJy8xnE2C7w==
+
+"@syntect/node-linux-arm64-musl@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-linux-arm64-musl/-/node-linux-arm64-musl-0.0.4.tgz#47ff3267fc1ae2d0336f8b50cd05dc1931249f85"
+  integrity sha512-bmh1rcZaizY8MOaxygY8sCutzMnJNxGEbuQZB4gLKv7TYJ8QvhZ1z4hyANrkVKEH2lT7GtOcCPMlc6GyK1fZug==
+
+"@syntect/node-linux-x64-gnu@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-linux-x64-gnu/-/node-linux-x64-gnu-0.0.4.tgz#8ffdd3d9cd29beadef6f4cfc87f934676b6e2262"
+  integrity sha512-WEH7p0frtlkCNN8yHM0w27rROWjQ08xu0wGlPwrLfvorC/vBvqEbPsuUFy8OFWsDa6S3JpYZgZEvEaMiIfhSwQ==
+
+"@syntect/node-linux-x64-musl@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-linux-x64-musl/-/node-linux-x64-musl-0.0.4.tgz#33cf563c26bde4ac1d2fce597c376ee200cc430f"
+  integrity sha512-TknXNSqPKG0uroXOJfUrkQkmiiylj/G5igd0/O/aflofQRjD+spwUaX2aYfUJqMxp7f73/d/kRIhR/QVST9ISg==
+
+"@syntect/node-win32-arm64-msvc@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-win32-arm64-msvc/-/node-win32-arm64-msvc-0.0.4.tgz#1fa140e9d788c3632b4f0c40308475ef455ea318"
+  integrity sha512-tmNV0/gsUZOS1suiGU3tO62Y4/b994RUp0BKX/Kfh8KkNeQcwbSRQ3PWADReGbl2a3jZL/ZWAJNGyCxEtfUdyA==
+
+"@syntect/node-win32-ia32-msvc@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-win32-ia32-msvc/-/node-win32-ia32-msvc-0.0.4.tgz#75f68bbe891d74a1df6feb81a32ac5e43ee4b9fe"
+  integrity sha512-R/YlFZrFUsIzSLnNui4OTNHJnAlO8Cy9V7SO2MdR/aAs7jtC7tPa8zTV/Mc4D6UlWLOj/vCCtSf7zRoAJFrJdA==
+
+"@syntect/node-win32-x64-msvc@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node-win32-x64-msvc/-/node-win32-x64-msvc-0.0.4.tgz#c18ea4a1d36c5abd5d803660f4c98366ddbc52b8"
+  integrity sha512-4DfI+/dUTn58rE41WJZBzAeHxKbRY7o7qwFnYW4r/wRe3nWf2dGskJCUFa4VdpEkawkz1wUqLUGyjiGp9PgiDg==
+
+"@syntect/node@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.npmjs.org/@syntect/node/-/node-0.0.4.tgz#43e9d5144c8e428ffa67cfb1fbc53503df8ce107"
+  integrity sha512-SSRB3RkCp6TY3EvFgLHPhHS8r0UclYex7lx58m2GuG63SpGIQ6I0ojNCmCUrEzX7fbdB7rBLwWfkNy4qGlFK/A==
+  optionalDependencies:
+    "@syntect/node-android-arm-eabi" "0.0.4"
+    "@syntect/node-android-arm64" "0.0.4"
+    "@syntect/node-darwin-arm64" "0.0.4"
+    "@syntect/node-darwin-x64" "0.0.4"
+    "@syntect/node-freebsd-x64" "0.0.4"
+    "@syntect/node-linux-arm-gnueabihf" "0.0.4"
+    "@syntect/node-linux-arm64-gnu" "0.0.4"
+    "@syntect/node-linux-arm64-musl" "0.0.4"
+    "@syntect/node-linux-x64-gnu" "0.0.4"
+    "@syntect/node-linux-x64-musl" "0.0.4"
+    "@syntect/node-win32-arm64-msvc" "0.0.4"
+    "@syntect/node-win32-ia32-msvc" "0.0.4"
+    "@syntect/node-win32-x64-msvc" "0.0.4"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -1913,11 +1997,6 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
   integrity sha1-gV7R9uvGWSb4ZbMQwHE7yzMVzks=
-
-prismjs@^1.24.1:
-  version "1.24.1"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.24.1.tgz#c4d7895c4d6500289482fa8936d9cdd192684036"
-  integrity sha512-mNPsedLuk90RVJioIky8ANZEwYm5w9LcvCXrxHlwf4fNVSn8jEipMybMkWUyyF0JhnC+C4VcOVSBuHRKs1L5Ow==
 
 private@^0.1.6, private@^0.1.8:
   version "0.1.8"
